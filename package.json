@@ -1,0 +1,25 @@
+{
+  "name": "laputa",
+  "version": "1.0.0",
+  "description": "web server",
+  "scripts": {
+    "start": "node build/server.js",
+    "spider": "node build/spider.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "laihongyu",
+  "license": "ISC",
+  "dependencies": {
+    "generic-pool": "^3.1.7",
+    "koa": "^2.3.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-log4": "^2.2.1",
+    "koa-router": "^7.2.1",
+    "log4js": "^2.3.3",
+    "mongodb": "^2.2.31",
+    "pify": "^3.0.0",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
+    "socket.io": "^2.0.3"
+  }
+}
