@@ -1,6 +1,6 @@
 const taskManager = require('./lib/taskManager');
 
-module.exports = async ()=>{
+module.exports = async()=> {
     setTimeout(()=> {
         // taskManager.addTask({
         //     type: 'greeting',
@@ -8,7 +8,9 @@ module.exports = async ()=>{
         // });
         taskManager.addTask({
             type: 'babehub/list',
-            url: 'http://www.babehub.com/'
+            params: {
+                url: 'http://www.babehub.com/'
+            }
         });
     }, 3000);
 }

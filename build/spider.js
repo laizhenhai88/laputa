@@ -42,7 +42,7 @@ socket.on('task', (task)=> {
 let doTask = async(task) => {
     await require('../lib/worker/' + task.type).doTask(task);
     currentTaskRunning = false;
-    if (task.result == 'success') {
+    if (task.status == 'success') {
         logger.info('task success');
         socket.emit('task success', task);
     } else {
