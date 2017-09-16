@@ -27,7 +27,8 @@ socket.on('login', (result)=> {
     logger.info(`login ${result}`)
 });
 
-// TODO:大的任务超时设置
+// 大的任务超时设置
+let timeoutRef = undefined;
 let currentTaskRunning = false;
 socket.on('task', (task)=> {
     logger.info(`got task ${JSON.stringify(task)}`);
@@ -36,12 +37,25 @@ socket.on('task', (task)=> {
         return;
     }
     currentTaskRunning = true;
+
+    // set timeout
+    timeoutRef = setTimeout(()=> {
+        logger.error(`task timeout ${JSON.stringify(task)}`);
+        process.exit(0);
+        // TOOD:关于timeout时如何通知服务器,如何更好的让客户端释放资源又;必须不能让timeout的任务又重新发送结果;可以考虑给每个task分配一个流水号,标记每一次dispatch
+    }, 5 * 60 * 1000);
+
     doTask(task);
 });
 
 let doTask = async(task) => {
     await require('../lib/worker/' + task.type).doTask(task);
     currentTaskRunning = false;
+    if (timeoutRef) {
+        clearTimeout(timeoutRef);
+        timeoutRef = undefined;
+    }
+
     if (task.status == 'success') {
         logger.info('task success');
         socket.emit('task success', task);
