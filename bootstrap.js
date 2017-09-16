@@ -9,7 +9,7 @@ module.exports = async()=> {
         taskManager.addTask({
             type: 'babehub/list',
             params: {
-                url: 'http://www.babehub.com/'
+                page: 1
             }
         });
     }, 3000);
