@@ -5,11 +5,13 @@ const Koa = require('koa');
 const router = require('koa-router')();
 const bodyParser = require('koa-bodyparser');
 const log4js = require('koa-log4');
+const staticServer = require('koa-static');
 const logger = require('../lib/logger')();
 
 let start = async()=> {
     const app = new Koa();
-    app.use(log4js.koaLogger(log4js.getLogger("http"), { level: 'auto' }));
+    app.use(log4js.koaLogger(log4js.getLogger("http"), {level: 'auto'}));
+    app.use(staticServer(path.join(__dirname, '../static'), {gzip: true}));
     app.use(bodyParser());
 
     // add routes
