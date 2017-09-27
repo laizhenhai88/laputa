@@ -5,6 +5,7 @@ const Koa = require('koa');
 const router = require('koa-router')();
 const bodyParser = require('koa-bodyparser');
 const log4js = require('koa-log4');
+const logger = require('../lib/logger')();
 
 let start = async()=> {
     const app = new Koa();
@@ -42,7 +43,7 @@ let start = async()=> {
 
     const port = 8080;
     server.listen(port);
-    console.log(`app started at port ${port}...`);
+    logger.info(`app started at port ${port}...`);
 };
 
 start();

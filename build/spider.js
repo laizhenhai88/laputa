@@ -1,5 +1,5 @@
 const process = require('process');
-const logger = require('../lib/logger')(__filename);
+const logger = require('../lib/logger')();
 // const server = require('./server.json');
 const uuidGen = require('uuid');
 const io = require('socket.io-client');
@@ -42,7 +42,7 @@ socket.on('task', (task)=> {
     timeoutRef = setTimeout(()=> {
         logger.error(`task timeout ${JSON.stringify(task)}`);
         process.exit(0);
-        // TOOD:关于timeout时如何通知服务器,如何更好的让客户端释放资源又;必须不能让timeout的任务又重新发送结果;可以考虑给每个task分配一个流水号,标记每一次dispatch
+        // TODO:关于timeout时如何通知服务器,如何更好的让客户端释放资源又;必须不能让timeout的任务又重新发送结果;可以考虑给每个task分配一个流水号,标记每一次dispatch
     }, 5 * 60 * 1000);
 
     doTask(task);
