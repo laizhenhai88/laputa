@@ -22,7 +22,7 @@ router.post('babehub', async(ctx, next)=> {
     tm.addTask({
         type: 'babehub/list',
         params: {
-            page: 1
+            page: ctx.request.body.page
         }
     });
     ctx.body = {msg: 'success'}
