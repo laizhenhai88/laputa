@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node build/server.js",
     "spider": "node build/spider.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node build/test.js"
   },
   "author": "laihongyu",
   "license": "ISC",
