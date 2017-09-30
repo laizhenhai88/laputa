@@ -3,6 +3,7 @@ const request = require('request');
 const path = require('path');
 const fs = require('fs');
 const cheerio = require('cheerio');
+const logger = require('../lib/logger')();
 
 let f = async() => {
 
@@ -14,8 +15,10 @@ let f = async() => {
         task.result = [];
 
         console.log(task.result);
+        logger.debug('xxxxx');
+        throw new Error('eeeee')
     } catch (e) {
-        console.log(e)
+        logger.error('itiseeee', e);
         console.log("...............")
     }
 
