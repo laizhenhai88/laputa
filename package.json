@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node build/server.js",
     "spider": "node build/spider.js",
+    "httpSpider": "node build/httpSpider.js",
     "test": "node build/test.js"
   },
   "author": "laihongyu",

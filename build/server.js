@@ -24,7 +24,7 @@ let start = async()=> {
                 await walk(path.join(dir, item), root + item + '/')
             } else {
                 let routeItem = require('../routes' + root + item.substring(0, item.length - 3));
-                router.use(item == 'index.js' ? root : root + item.substring(0, item.length - 3), routeItem.routes(), routeItem.allowedMethods());
+                router.use(item == 'index.js' ? root : root + item.substring(0, item.length - 3) + '/', routeItem.routes(), routeItem.allowedMethods());
             }
         }
     };
