@@ -33,8 +33,8 @@ router.get('monitor', async(ctx, next)=> {
         ctx.body = {
             task: await client.collection('task').count(),
             waiting: await client.collection('task').count({status: 'init'}),
-            hb_list: await client.collection('hb_list').count(),
-            hb_detail: await client.collection('hb_detail').count(),
+            hb_list: await client.collection('fuli_list').count(),
+            hb_detail: await client.collection('fuli_detail').count(),
         }
     });
 });

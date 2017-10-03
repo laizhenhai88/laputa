@@ -11,11 +11,11 @@ module.exports = async()=> {
         //     }
         // });
 
-        taskManager.addTask({
-            type: 'fuli/p0/list',
-            params: {
-                page: 1
-            }
-        });
+        // taskManager.addTask({
+        //     type: 'fuli/p0/list',
+        //     params: {
+        //         page: 1
+        //     }
+        // });
     }, 1000);
 }

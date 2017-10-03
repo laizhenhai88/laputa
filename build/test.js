@@ -11,8 +11,8 @@ let f = async() => {
         `
         
         `;
-
     try {
+        
         let task = {};
         let $ = cheerio.load(html);
         task.result = [];
