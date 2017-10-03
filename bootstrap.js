@@ -12,7 +12,7 @@ module.exports = async()=> {
         // });
 
         taskManager.addTask({
-            type: 'fuli/p1-zhaifuli/list',
+            type: 'fuli/p2-zhainanshe/list',
             params: {
                 page: 1
             }
