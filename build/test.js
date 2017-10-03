@@ -12,15 +12,9 @@ let f = async() => {
         
         `;
     try {
-        
         let task = {};
         let $ = cheerio.load(html);
         task.result = [];
-        $('article.article-content>p>img').each((i, ele)=> {
-            task.result.push({
-                image: $(ele).prop('src')
-            })
-        });
 
         console.log(task.result);
     } catch (e) {
