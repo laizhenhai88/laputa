@@ -4,11 +4,18 @@ module.exports = async()=> {
     await taskManager._load();
 
     setTimeout(()=> {
+        // taskManager.addTask({
+        //     type: 'greeting',
+        //     params: {
+        //         msg: 'hello worker'
+        //     }
+        // });
+
         taskManager.addTask({
-            type: 'greeting',
+            type: 'fuli/p1-zhaifuli/list',
             params: {
-                msg: 'hello worker'
+                page: 1
             }
         });
-    }, 3000);
+    }, 1000);
 }

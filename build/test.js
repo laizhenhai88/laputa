@@ -7,16 +7,21 @@ const logger = require('../lib/logger')();
 
 let f = async() => {
 
-    let html = '';
+    let html =
+        `
+        `;
 
     try {
         let task = {};
         let $ = cheerio.load(html);
         task.result = [];
+        $('article.article-content>p>img').each((i, ele)=> {
+            task.result.push({
+                image: $(ele).prop('src')
+            })
+        });
 
         console.log(task.result);
-        logger.debug('xxxxx');
-        throw new Error('eeeee')
     } catch (e) {
         logger.error('itiseeee', e);
         console.log("...............")
