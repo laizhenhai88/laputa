@@ -1,9 +1,23 @@
 const router = require('koa-router')();
 const tm = require('../lib/taskManager');
 const mongo = require('../lib/mongo');
+const request = require('request');
+const rp = require('request-promise');
 
 router.get('/', async(ctx, next) => {
     ctx.body = 'Hello laputa!';
+});
+
+router.get('proxy', async(ctx, next)=> {
+    delete ctx.headers.referer;
+    delete ctx.headers.host;
+    ctx.respond = false;
+    await rp.get({
+        uri: ctx.query.target,
+        headers: ctx.headers,
+        encoding: null
+    }).pipe(ctx.res);
+    ctx.body = null;
 });
 
 router.post('instagram', async(ctx, next)=> {
