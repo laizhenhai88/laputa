@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>tool</title>
+    <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html{
+            width:100%;
+            height:100%;
+        }
+        body {
+            padding-top: 50px;
+            width:100%;
+            height:100%;
+        }
+        #app,#app>div {
+            height:100%;
+        }
+        #app>div>textarea {
+            width:100%;
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">re tool</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid" id="app">
+    <div class="col-xs-5">
+        <textarea cols="30" rows="10" v-model="src"></textarea>
+    </div>
+    <div class="col-xs-1">
+        <ul class="nav nav-pills nav-stacked" v-for="v,k in funcs">
+            <li v-bind:class="isActiveSrc(k)"><a href="#" v-on:click="clickSrc(k)">{{v}}</a></li>
+        </ul>
+    </div>
+    <div class="col-xs-1">
+        <ul class="nav nav-pills nav-stacked" v-for="v,k in funcs">
+            <li v-bind:class="isActiveDest(k)"><a href="#" v-on:click="clickDest(k)">-> {{v}}</a></li>
+        </ul>
+    </div>
+    <div class="col-xs-5">
+        <textarea cols="30" rows="10" v-model="dest"></textarea>
+    </div>
+
+</div><!-- /.container -->
+
+<script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/crypto-js/3.1.9/crypto-js.min.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            src: '3c3f786d6c2076657273696f6e3d22312e302220656e636f64696e673d225554462d3822207374616e64616c6f6e653d226e6f223f3e0a3c706c6973742076657273696f6e3d22312e30223e0a3c646963743e0a3c6b65793e70696e67733c2f6b65793e0a3c61727261793e3c2f61727261793e0a3c6b65793e6661696c757265547970653c2f6b65793e3c737472696e673e313030313c2f737472696e673e0a3c6b65793e637573746f6d65724d6573736167653c2f6b65793e3c737472696e673e4d5a46696e616e63652e4e6f4163636f756e745f6d6573736167653c2f737472696e673e0a3c6b65793e6d2d616c6c6f7765643c2f6b65793e3c66616c73652f3e0a3c6b65793e63616e63656c2d70757263686173652d62617463683c2f6b65793e3c747275652f3e0a3c2f646963743e0a3c2f706c6973743e0a',
+            dest: '',
+            srcType: 'str',
+            destType: 'str',
+            funcs : {
+                'str':'字符串',
+                'base64':'Base64',
+                'hex':'hex'
+            }
+        },
+        methods: {
+            isActiveSrc: function (k) {
+                if (this.srcType == k) {
+                    return 'active';
+                }
+                return '';
+            },
+            isActiveDest: function (k) {
+                if (this.destType == k) {
+                    return 'active';
+                }
+                return '';
+            },
+            clickSrc: function (k) {
+                this.srcType = k;
+            },
+            clickDest: function (k) {
+                this.destType = k;
+            },
+        }
+    })
+</script>
+</body>
+</html>
