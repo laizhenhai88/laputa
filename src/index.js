@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import components from './components/components'
+import components from './components/components';
 
 Vue.use(components);
 new Vue({
