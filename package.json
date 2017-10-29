@@ -16,17 +16,20 @@
     "cheerio": "^1.0.0-rc.2",
     "generic-pool": "^3.1.8",
     "iconv-lite": "^0.4.19",
+    "iview": "^2.6.0",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
     "koa-log4": "^2.2.1",
     "koa-router": "^7.2.1",
     "koa-static": "^4.0.1",
     "log4js": "^2.3.3",
+    "mint-ui": "^2.2.9",
     "mongodb": "^2.2.31",
     "pify": "^3.0.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
-    "socket.io": "^2.0.3"
+    "socket.io": "^2.0.3",
+    "vue-router": "^3.0.1"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^0.1.17",
