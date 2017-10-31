@@ -43,8 +43,13 @@
         </ul>
     </div>
     <div class="col-xs-1">
-        <ul class="nav nav-pills nav-stacked" v-for="v,k in funcs">
-            <li v-bind:class="isActiveDest(k)"><a href="#" v-on:click="clickDest(k)">-> {{v}}</a></li>
+        <ul class="nav nav-pills nav-stacked">
+          <template v-for="v,k in funcs">
+            <li v-bind:class="isActiveDest(k)"><a href="#" v-on:click="clickDest(k)">{{v}}</a></li>
+          </template>
+          <template v-for="k in crypto">
+            <li v-bind:class="isActiveDest(k)"><a href="#" v-on:click="clickDest(k)">{{k}}</a></li>
+          </template>
         </ul>
     </div>
     <div class="col-xs-5">
@@ -57,40 +62,88 @@
 <script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="https://cdn.bootcss.com/crypto-js/3.1.9/crypto-js.min.js"></script>
 <script>
-    new Vue({
-        el: '#app',
-        data: {
-            src: '3c3f786d6c2076657273696f6e3d22312e302220656e636f64696e673d225554462d3822207374616e64616c6f6e653d226e6f223f3e0a3c706c6973742076657273696f6e3d22312e30223e0a3c646963743e0a3c6b65793e70696e67733c2f6b65793e0a3c61727261793e3c2f61727261793e0a3c6b65793e6661696c757265547970653c2f6b65793e3c737472696e673e313030313c2f737472696e673e0a3c6b65793e637573746f6d65724d6573736167653c2f6b65793e3c737472696e673e4d5a46696e616e63652e4e6f4163636f756e745f6d6573736167653c2f737472696e673e0a3c6b65793e6d2d616c6c6f7765643c2f6b65793e3c66616c73652f3e0a3c6b65793e63616e63656c2d70757263686173652d62617463683c2f6b65793e3c747275652f3e0a3c2f646963743e0a3c2f706c6973743e0a',
-            dest: '',
-            srcType: 'str',
-            destType: 'str',
-            funcs : {
-                'str':'字符串',
-                'base64':'Base64',
-                'hex':'hex'
-            }
-        },
-        methods: {
-            isActiveSrc: function (k) {
-                if (this.srcType == k) {
-                    return 'active';
-                }
-                return '';
-            },
-            isActiveDest: function (k) {
-                if (this.destType == k) {
-                    return 'active';
-                }
-                return '';
-            },
-            clickSrc: function (k) {
-                this.srcType = k;
-            },
-            clickDest: function (k) {
-                this.destType = k;
-            },
+new Vue({
+  el: '#app',
+  data: {
+    src: '',
+    dest: '',
+    srcType: 'Utf8',
+    destType: 'Utf8',
+    needAna: true,
+    funcs: {
+      'Utf8': '字符串',
+      'Base64': 'Base64',
+      'Hex': 'Hex'
+    },
+    crypto: ['MD5','SHA256','SHA1','SHA3','SHA224','SHA384','SHA512']
+  },
+  created: function() {
+    for (var i in this.crypto) {
+      (function(){
+        var func = this.crypto[i];
+        CryptoJS.enc[func] = {
+          stringify: function(p) {
+            console.log(func);
+            return CryptoJS[func](p).toString();
+          }
+        };
+      }).apply(this);
+    }
+  },
+  watch: {
+    src: function(val) {
+      this.needAna = true;
+      this._transfer();
+    }
+  },
+  methods: {
+    isActiveSrc: function(k) {
+      if (this.srcType == k) {
+        return 'active';
+      }
+      return '';
+    },
+    isActiveDest: function(k) {
+      if (this.destType == k) {
+        return 'active';
+      }
+      return '';
+    },
+    clickSrc: function(k) {
+      this.srcType = k;
+      this.needAna = false;
+      this._transfer();
+    },
+    clickDest: function(k) {
+      this.destType = k;
+      this._transfer();
+    },
+    _transfer: function() {
+      try {
+        // ana src
+        var src = this.src.toString();
+        if (this.needAna) {
+          if (src.replace(/[\r\n <>]/g,'').replace(/[0-9|a-f|A-F]/g,'') == '') {
+            // 去掉空格和<>,范围是否在hex内
+            this.srcType = 'Hex';
+            src = src.replace(/[\r\n <>]/g,'');
+          } else if (src.replace(/[A-Z|a-z|0-9|+/=]/g,'') == '') {
+            // 范围是否在base64内
+            this.srcType = 'Base64';
+          } else {
+            this.srcType = 'Utf8';
+          }
         }
-    })
+        var p = CryptoJS.enc[this.srcType].parse(src);
+        this.dest = CryptoJS.enc[this.destType].stringify(p);
+      } catch(e) {
+        console.log(e);
+        this.dest = '';
+      }
+    },
+
+  }
+})
 </script>
 </body>
 </html>
