@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import VueResource from 'vue-resource';
 import VueRouter from 'vue-router';
 import Routers from './router';
 import iView from 'iview';
@@ -12,6 +13,7 @@ Vue.directive('title', {
     }
 });
 
+Vue.use(VueResource);
 Vue.use(VueRouter);
 Vue.use(iView);
 Vue.use(components);
