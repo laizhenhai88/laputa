@@ -1,5 +1,5 @@
 <template>
-<Scroll :on-reach-bottom="handleReachBottom" height="auto">
+<Scroll :on-reach-bottom="handleReachBottom" height="300">
   <Row :gutter="16">
     <Col span="6" v-for="(item, index) in list" :key="index">
       <Card>
@@ -12,6 +12,7 @@
   </Row>
 </Scroll>
 </template>
+
 <script>
 export default {
   data() {
@@ -25,17 +26,25 @@ export default {
     this.list = result.body;
   },
   methods: {
-    handleReachBottom() {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          const last = this.list1[this.list1.length - 1];
-          for (let i = 1; i < 11; i++) {
-            this.list1.push(last + i);
-          }
+    async handleReachBottom() {
+      await new Promise((resolve)=>{
+        setTimeout(()=>{
           resolve();
-        }, 2000);
+        }, 1000);
       });
+      this.page++;
+      let result = await this.$http.get(`/fuli/${this.page}`);
+      for (let i in result.body) {
+        this.list.push(result.body[i]);
+      };
     }
   }
 }
 </script>
+
+<style scoped>
+/*html,body{
+  width: 100%;
+  height: 100%;
+}*/
+</style>
