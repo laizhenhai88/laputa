@@ -1,10 +1,10 @@
 <template>
-  <div class="container">
+  <div class="container" v-if='d.main'>
     <h1>{{d.main.title}}</h1>
     <p>{{d.main.time}}</p>
     <p>{{d.main.note}}</p>
     <img :src="'/' + d.main._id + '.jpg'">
-    <img :src="'/' + item._id + '.jpg'" v-for="(item, index) in d.items" :key="index">
+    <img :src="'/' + item._id + '-image.jpg'" v-for="(item, index) in d.items" :key="index">
   </div>
 </template>
 
