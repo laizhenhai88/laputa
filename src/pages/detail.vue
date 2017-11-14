@@ -1,6 +1,6 @@
 <template>
   <div class="container" v-if='d.main'>
-    <h1>{{d.main.title}}</h1>
+    <h1 v-title='d.main.title'>{{d.main.title}}</h1>
     <p>{{d.main.time}}</p>
     <p>{{d.main.note}}</p>
     <img :src="'/' + d.main._id + '.jpg'">
