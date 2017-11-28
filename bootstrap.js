@@ -6,6 +6,7 @@ module.exports = async()=> {
     setTimeout(()=> {
         // taskManager.addTask({
         //     type: 'greeting',
+        //     delay: 10 * 60 * 1000,
         //     params: {
         //         msg: 'hello worker'
         //     }

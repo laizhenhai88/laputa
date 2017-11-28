@@ -9,30 +9,30 @@ const staticServer = require('koa-static');
 const logger = require('../lib/logger')();
 
 // webpack
-const webpack = require('webpack');
-const convert = require('koa-convert')
-const koaWebpackMiddleware = require('koa-webpack-middleware');
-const webpackDevMiddleware = koaWebpackMiddleware.devMiddleware;
-const webpackHotMiddleware = koaWebpackMiddleware.hotMiddleware;
-const config = require('../webpack.dev');
-const compiler = webpack(config);
-const wdm = webpackDevMiddleware(compiler, {
-  watchOptions: {
-    aggregateTimeout: 300,
-    poll: true
-  },
-  reload: true,
-  publicPath: config.output.publicPath,
-  stats: {
-    colors: true
-  }
-});
+// const webpack = require('webpack');
+// const convert = require('koa-convert')
+// const koaWebpackMiddleware = require('koa-webpack-middleware');
+// const webpackDevMiddleware = koaWebpackMiddleware.devMiddleware;
+// const webpackHotMiddleware = koaWebpackMiddleware.hotMiddleware;
+// const config = require('../webpack.dev');
+// const compiler = webpack(config);
+// const wdm = webpackDevMiddleware(compiler, {
+//   watchOptions: {
+//     aggregateTimeout: 300,
+//     poll: true
+//   },
+//   reload: true,
+//   publicPath: config.output.publicPath,
+//   stats: {
+//     colors: true
+//   }
+// });
 
 let start = async()=> {
     const app = new Koa();
     // webpack
-    app.use(convert(wdm))
-    app.use(convert(webpackHotMiddleware(compiler)))
+    // app.use(convert(wdm))
+    // app.use(convert(webpackHotMiddleware(compiler)))
 
     app.use(log4js.koaLogger(log4js.getLogger("http"), {level: 'auto'}));
     app.use(staticServer(path.join(__dirname, '../dist'), {gzip: true}));
