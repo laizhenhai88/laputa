@@ -1,22 +1,25 @@
 <style>
-.ivu-table .table-info-row-alive td{
+.ivu-table .table-info-row-alive td {
   background-color: #2db7f5;
   color: #fff;
 }
-.ivu-table .table-info-row-dead td{
+
+.ivu-table .table-info-row-dead td {
   background-color: #f60;
   color: #fff;
 }
 </style>
 <template>
-<Row>
-  <Col span="24">
-  <Card>
-    <p slot="title">{{detail.group}} {{analysis}}</p>
-    <Table :columns="columns" :data="detail.detail" :row-class-name="rowClassName"></Table>
-  </Card>
-  </Col>
-</Row>
+<div class="layout-content-main">
+  <Row>
+    <Col span="24">
+    <Card>
+      <p slot="title">{{detail.group}} {{analysis}}</p>
+      <Table :columns="columns" :data="detail.detail" :row-class-name="rowClassName"></Table>
+    </Card>
+    </Col>
+  </Row>
+</div>
 </template>
 <script>
 export default {
@@ -29,7 +32,15 @@ export default {
     return {
       columns: [{
           title: 'URL',
-          key: 'url'
+          key: 'url',
+          render: (h, params) => {
+            return h('a', {
+              attrs: {
+                href: params.row.url,
+                target: '_blank'
+              }
+            }, [params.row.url]);
+          }
         },
         {
           title: 'createTime',
@@ -60,7 +71,7 @@ export default {
     }
   },
   computed: {
-    analysis: function(){
+    analysis: function() {
       if (this.detail.detail) {
         let alive = 0;
         for (let i in this.detail.detail) {

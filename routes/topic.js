@@ -36,7 +36,7 @@ router.get('/', async (ctx, next) => {
   await mongo.persist(async (client) => {
     ctx.body = await client.collection('topic').find().sort({
       'createTime': -1
-    }).limit(10).toArray();
+    }).limit(20).toArray();
   });
 });
 

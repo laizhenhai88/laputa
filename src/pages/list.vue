@@ -1,22 +1,35 @@
 <template>
-  <div class="layout-content-main">
-    <Row v-for="(item, index) in list" :key="item._id">
-      <Col>
-        <router-link :to="{name:'detail',params:{_id:item._id}}"><h2>{{item.group}} {{item.createTime}}</h2></router-link>
-      </Col>
-    </Row>
-  </div>
+<div class="layout-content-main">
+  <Table :columns="columns" :data="list"></Table>
+</div>
 </template>
 <script>
-    export default {
-        created: async function() {
-          let result = await this.$http.get(`/topic/`);
-          this.list = result.body;
+export default {
+  created: async function() {
+    let result = await this.$http.get(`/topic/`);
+    this.list = result.body;
+  },
+  data() {
+    return {
+      columns: [
+        {
+          title: '话题组',
+          key: 'group',
+          render: (h, params) => {
+            return h('router-link', {
+              props: {
+                to: {name: 'detail', params: {_id: params.row._id}}
+              }
+            }, [params.row.group]);
+          }
         },
-        data () {
-            return {
-                list: []
-            }
-        }
+        {
+          title: '创建时间',
+          key: 'createTime'
+        },
+      ],
+      list: []
     }
+  }
+}
 </script>
