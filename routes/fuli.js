@@ -12,7 +12,6 @@ router.get(':page', async (ctx, next) => {
 });
 
 router.get('detail/:_id', async (ctx, next) => {
-  console.log(ctx.params._id);
   await mongo.persist(async (client) => {
     detail = {};
     detail.main = await client.collection('fuli_list').findOne({_id:mongo.ObjectID(ctx.params._id)});
