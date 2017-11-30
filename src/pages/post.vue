@@ -2,7 +2,7 @@
   <div class="layout-content-main">
     <Input v-model="group" placeholder="话题组"></Input>
     <br><br>
-    <Input v-model="urls" type="textarea" :rows="10" placeholder="话题链接，按回车分隔"></Input>
+    <Input v-model="urls" type="textarea" :rows="10" placeholder="话题链接，必须带上http/https前缀，按回车分隔"></Input>
     <br><br>
     <Button type="primary" v-on:click="submit">提交</Button>
   </div>
