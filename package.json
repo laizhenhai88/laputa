@@ -4,6 +4,7 @@
   "description": "web server",
   "scripts": {
     "start": "node build/server.js",
+    "server": "node build/serverProd.js",
     "spider": "node build/spider.js",
     "httpSpider": "node build/httpSpider.js",
     "build": "webpack --config webpack.prod.js",
