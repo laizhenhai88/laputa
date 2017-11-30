@@ -3,9 +3,8 @@ const logger = require('../lib/logger')();
 // const server = require('./server.json');
 const uuidGen = require('uuid');
 const io = require('socket.io-client');
-// const url = server.url;
-const url = 'http://127.0.0.1:8080';
-const socket = io.connect(url);
+const conf = require('../conf.json');
+const socket = io.connect(conf.serverUrl);
 
 socket.uuid = uuidGen.v4();
 socket.type = 'spider';
