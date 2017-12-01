@@ -1,3 +1,4 @@
+require('../lib/common');
 const path = require('path');
 const pify = require('pify');
 const fs = pify(require('fs'));

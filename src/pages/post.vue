@@ -17,7 +17,13 @@
         },
         methods: {
           async submit () {
-            let result = await this.$http.post(`/topic/`, this.$data);
+            let urls = [], splits = this.urls.split('\n');
+            for (let i in splits) {
+              if (splits[i].trim().length > 0) {
+                urls.push(splits[i].trim());
+              }
+            }
+            let result = await this.$http.post(`/topic/`, {group:this.group,urls:urls});
             if (result.body.code == 1) {
               this.$Message.success('提交成功');
               this.$router.push({name: 'list'})

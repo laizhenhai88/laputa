@@ -3,7 +3,13 @@ const tm = require('../lib/taskManager');
 const mongo = require('../lib/mongo');
 
 router.post('/', async (ctx, next) => {
-  let urls = ctx.request.body.urls.split('\n');
+  let clientUrls = ctx.request.body.urls;
+  let urls = [];
+  for (let i in clientUrls) {
+    if (clientUrls[i].trim().length > 0) {
+      urls.push(clientUrls[i].trim());
+    }
+  }
   await mongo.persist(async (client) => {
     await client.collection('topic').updateOne(
       {group: ctx.request.body.group},
