@@ -36,8 +36,6 @@ let start = async()=> {
     app.use(convert(webpackHotMiddleware(compiler)))
 
     app.use(log4js.koaLogger(log4js.getLogger("http"), {level: 'auto'}));
-    app.use(staticServer(path.join(__dirname, '../dist'), {gzip: true}));
-    // app.use(staticServer(path.join(__dirname, '../../download/fuli'), {gzip: true}));
     app.use(bodyParser());
 
     // add routes
