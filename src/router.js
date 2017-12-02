@@ -1,9 +1,11 @@
 import post from './pages/post';
 import p404 from './pages/p404';
-const list = ()=> import('./pages/list');
+const admin = ()=> import('./pages/admin');
+const list = () => import('./pages/list');
 const detail = ()=> import('./pages/detail');
 
-export default [{
+export default [
+  {
     path: '/',
     name: 'post',
     component: post
@@ -23,5 +25,10 @@ export default [{
     name: '*',
     path: '*',
     component: p404
-  }
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    component: admin
+  },
 ]
