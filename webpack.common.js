@@ -3,14 +3,25 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        app: './src/index.js'
+        index: './src/index.js',
+        app: './src/app.js',
     },
     plugins: [
         new HtmlWebpackPlugin({
             title: 'laputa',
+            filename: 'index.html',
             favicon: './src/favicon.ico',
             minify: {caseSensitive: true, collapseWhitespace: true},
-            template: './src/index.ejs'
+            template: './src/index.ejs',
+            chunks: ['index']
+        }),
+        new HtmlWebpackPlugin({
+            title: 'laputa',
+            filename: 'app.html',
+            favicon: './src/favicon.ico',
+            minify: {caseSensitive: true, collapseWhitespace: true},
+            template: './src/index.ejs',
+            chunks: ['app']
         }),
     ],
     output: {

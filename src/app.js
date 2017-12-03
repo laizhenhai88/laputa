@@ -1,11 +1,11 @@
 import Vue from 'vue';
 import VueResource from 'vue-resource';
 import VueRouter from 'vue-router';
-import Routers from './router';
-import iView from 'iview';
-import 'iview/dist/styles/iview.css';
+import Routers from './appRouter';
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
 import components from './components/components';
-import Desctop from './Desctop';
+import AppIndex from './AppIndex';
 
 Vue.directive('title', {
   inserted: function(el, binding) {
@@ -15,7 +15,7 @@ Vue.directive('title', {
 
 Vue.use(VueResource);
 Vue.use(VueRouter);
-Vue.use(iView);
+Vue.use(MintUI);
 Vue.use(components);
 
 // 路由配置
@@ -27,5 +27,5 @@ const router = new VueRouter({
 new Vue({
   el: '#app',
   router,
-  render: h => h(Desctop)
+  render: h => h(AppIndex)
 });
