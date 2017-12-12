@@ -30,10 +30,29 @@
 export default {
   props: ['_id'],
   created: async function() {
-    let result = await this.$http.get(`/topic/detail/${this._id}`);
+    let result = await this.$http.get(`/topic/detail/groupId/${this._id}`);
     let sec=0,min=0,tenMin=0,hour=0,day=0;
     let count = result.body.detail.length;
     for (let i in result.body.detail) {
+      if (result.body.detail[i].aliveTime) {
+        result.body.detail[i].keep = '';
+        let offset = (new Date(result.body.detail[i].aliveTime) - new Date(result.body.detail[i].createTime)) / 1000;
+
+        result.body.detail[i].sec = true;
+        if (offset >= 60) result.body.detail[i].min = true;
+        if (offset >= 10*60) result.body.detail[i].tenMin = true;
+        if (offset >= 60*60) result.body.detail[i].hour = true;
+        if (offset >= 24*60*60) result.body.detail[i].day = true;
+
+        if (offset / 60 / 60 > 1) {
+          result.body.detail[i].keep += `${Math.floor(offset / 60 / 60)}小时`;
+        }
+        if (offset / 60 > 1 && Math.floor(offset / 60) % 60 > 0) {
+          result.body.detail[i].keep += `${Math.floor(offset / 60) % 60}分`;
+        }
+        result.body.detail[i].keep += `${Math.floor(offset % 60)}秒`;
+      }
+
       if (result.body.detail[i].sec) sec++;
       if (result.body.detail[i].min) min++;
       if (result.body.detail[i].tenMin) tenMin++;
@@ -65,7 +84,7 @@ export default {
           }
         },
         {
-          title: 'createTime',
+          title: '创建时间',
           key: 'createTime'
         },
         {
@@ -81,12 +100,20 @@ export default {
           key: 'tenMin'
         },
         {
-          title: '1小时',
-          key: 'hour'
+          title: '留存',
+          key: 'keep'
         },
         {
-          title: '1天',
-          key: 'day'
+          title: '阅读',
+          key: 'read'
+        },
+        {
+          title: '点赞',
+          key: 'like'
+        },
+        {
+          title: '评论',
+          key: 'comment'
         }
       ],
       detail: {}

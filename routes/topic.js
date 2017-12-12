@@ -27,7 +27,8 @@ router.post('/', async (ctx, next) => {
         type: 'topic/alive',
         params: {
           url: urls[i],
-          time: 'sec'
+          time: 'sec',
+          createTime: new Date().getTime()
         }
       });
     }
@@ -47,6 +48,12 @@ router.get('/', async (ctx, next) => {
 });
 
 router.get('detail/:_id', async (ctx, next) => {
+  await mongo.persist(async (client) => {
+    ctx.body = await client.collection('topicUrl').findOne({_id:mongo.ObjectID(ctx.params._id)});
+  });
+});
+
+router.get('detail/groupId/:_id', async (ctx, next) => {
   await mongo.persist(async (client) => {
     let group = await client.collection('topic').findOne({_id:mongo.ObjectID(ctx.params._id)});
     group.detail = [];
