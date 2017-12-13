@@ -31,6 +31,10 @@ const wdm = webpackDevMiddleware(compiler, {
 
 let start = async()=> {
     const app = new Koa();
+    app.use(async (ctx,next) => {
+      ctx.set('Access-Control-Allow-Origin','*')
+      await next();
+    });
     // webpack
     app.use(convert(wdm))
     app.use(convert(webpackHotMiddleware(compiler)))

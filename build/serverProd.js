@@ -11,6 +11,10 @@ const logger = require('../lib/logger')();
 
 let start = async()=> {
     const app = new Koa();
+    app.use(async (ctx,next) => {
+      ctx.set('Access-Control-Allow-Origin','*')
+      await next();
+    });
 
     app.use(log4js.koaLogger(log4js.getLogger("http"), {level: 'auto'}));
     app.use(staticServer(path.join(__dirname, '../dist'), {gzip: true}));
