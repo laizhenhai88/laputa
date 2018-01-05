@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>tool</title>
+    <script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+    <link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        html{
+            width:100%;
+            height:100%;
+        }
+        body {
+            padding-top: 50px;
+            width:100%;
+            height:100%;
+        }
+        #app,#app>div {
+            height:100%;
+        }
+        #app>div>textarea {
+            width:100%;
+            height:100%;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">re tool</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid" id="app">
+    <div class="col-xs-5">
+        <textarea cols="30" rows="10" v-model="src"></textarea>
+    </div>
+    <div class="col-xs-1">
+        <ul class="nav nav-pills nav-stacked" v-for="v,k in funcs">
+            <li v-bind:class="isActiveSrc(k)"><a href="#" v-on:click="clickSrc(k)">{{v}}</a></li>
+        </ul>
+    </div>
+    <div class="col-xs-1">
+        <ul class="nav nav-pills nav-stacked">
+          <template v-for="v,k in funcs">
+            <li v-bind:class="isActiveDest(k)"><a href="#" v-on:click="clickDest(k)">{{v}}</a></li>
+          </template>
+          <template v-for="k in crypto">
+            <li v-bind:class="isActiveDest(k)"><a href="#" v-on:click="clickDest(k)">{{k}}</a></li>
+          </template>
+        </ul>
+    </div>
+    <div class="col-xs-5">
+        <textarea cols="30" rows="10" v-model="dest"></textarea>
+    </div>
+
+</div><!-- /.container -->
+
+<script src="https://cdn.bootcss.com/crypto-js/3.1.9/crypto-js.min.js"></script>
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    src: '',
+    dest: '',
+    srcType: 'Utf8',
+    destType: 'Utf8',
+    needAna: true,
+    funcs: {
+      'Utf8': '字符串',
+      'Base64': 'Base64',
+      'Hex': 'Hex'
+    },
+    crypto: ['MD5','SHA256','SHA1','SHA3','SHA224','SHA384','SHA512']
+  },
+  created: function() {
+    for (var i in this.crypto) {
+      (function(){
+        var func = this.crypto[i];
+        CryptoJS.enc[func] = {
+          stringify: function(p) {
+            console.log(func);
+            return CryptoJS[func](p).toString();
+          }
+        };
+      }).apply(this);
+    }
+  },
+  watch: {
+    src: function(val) {
+      this.needAna = true;
+      this._transfer();
+    }
+  },
+  methods: {
+    isActiveSrc: function(k) {
+      if (this.srcType == k) {
+        return 'active';
+      }
+      return '';
+    },
+    isActiveDest: function(k) {
+      if (this.destType == k) {
+        return 'active';
+      }
+      return '';
+    },
+    clickSrc: function(k) {
+      this.srcType = k;
+      this.needAna = false;
+      this._transfer();
+    },
+    clickDest: function(k) {
+      this.destType = k;
+      this._transfer();
+    },
+    _transfer: function() {
+      try {
+        // ana src
+        var src = this.src.toString();
+        if (this.needAna) {
+          if (src.replace(/[\r\n <>]/g,'').replace(/[0-9|a-f|A-F]/g,'') == '') {
+            // 去掉空格和<>,范围是否在hex内
+            this.srcType = 'Hex';
+            src = src.replace(/[\r\n <>]/g,'');
+          } else if (src.replace(/[A-Z|a-z|0-9|+/=]/g,'') == '') {
+            // 范围是否在base64内
+            this.srcType = 'Base64';
+          } else {
+            this.srcType = 'Utf8';
+          }
+        }
+        var p = CryptoJS.enc[this.srcType].parse(src);
+        this.dest = CryptoJS.enc[this.destType].stringify(p);
+      } catch(e) {
+        console.log(e);
+        this.dest = '';
+      }
+    },
+
+  }
+})
+</script>
+</body>
+</html>

@@ -3,9 +3,8 @@ const mongo = require('../lib/mongo');
 
 router.get(':page', async (ctx, next) => {
   await mongo.persist(async (client) => {
-    ctx.body = await client.collection('fuli_list').find(
-      {detail: true}
-    ).sort({
+    ctx.body = await client.collection('fuli_list').find()
+    .sort({
       'time': -1
     }).skip((ctx.params.page - 1) * 20).limit(20).toArray();
   });

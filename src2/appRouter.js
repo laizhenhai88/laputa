@@ -1,13 +1,13 @@
-import p404 from './pages/p404';
-const admin = ()=> import('./pages/admin');
-const list = () => import('./pages/list');
-const detail = ()=> import('./pages/detail');
+import index from './appPages/index';
+import p404 from './appPages/p404';
+const admin = ()=> import('./appPages/admin');
+const detail = ()=> import('./appPages/detail');
 
 export default [
   {
-    name: 'list',
+    name: 'index',
     path: '/',
-    component: list
+    component: index
   },
   {
     name: 'detail',
