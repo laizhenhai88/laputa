@@ -29,4 +29,11 @@ router.get('monitor', async(ctx, next)=> {
   }
 });
 
+router.post('addTask', async(ctx, next)=> {
+  tm.addTask(ctx.request.body)
+  ctx.body = {
+    msg: 'success'
+  }
+});
+
 module.exports = router;
