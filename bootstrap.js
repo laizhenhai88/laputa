@@ -13,9 +13,9 @@ module.exports = async () => {
     // });
 
     // taskManager.addTask({
-    //     type: 'fuli/p0/list',
+    //     type: 'avatar/list',
     //     params: {
-    //         page: 1
+    //         page: 'http://www.woyaogexing.com/touxiang/katong/2018/567500.html'
     //     }
     // });
   }, 1000);
