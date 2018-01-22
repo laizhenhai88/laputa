@@ -10,7 +10,7 @@
 <script>
 export default {
   created: async function() {
-    let result = await this.$http.get(`/monitor/`);
+    let result = await this.$http.get(`/monitor`);
     this.data = result.body;
   },
   data() {

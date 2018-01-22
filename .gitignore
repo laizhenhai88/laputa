@@ -2,5 +2,5 @@
 /bower_components
 /node_modules
 /*.iml
-.DS_Store
+*.DS_Store
 conf.json
