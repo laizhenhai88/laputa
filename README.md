@@ -1,5 +1,5 @@
 # laputa
-laputa is a node spider manager webserver, use koa2
+laputa is a node spider webserver, use koa2
 
 # start webserver
     #npm start
