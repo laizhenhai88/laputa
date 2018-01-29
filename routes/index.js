@@ -8,13 +8,23 @@ router.get('/', async(ctx, next) => {
     ctx.body = 'Hello laputa!';
 });
 
-router.get('monitor', async(ctx, next)=> {
+router.get('tm/monitor', async(ctx, next)=> {
   ctx.body = {
     tasks: tm.tasks.length,
     delayTasks: tm.delayTasks.size,
     workers: tm.workers.size,
     runningWorkers: tm.runningWorkers.size,
-    groups: tm.groups
+    groups: tm.groups,
+    pause: tm.pause
+  }
+});
+
+router.post('tm/pause/toggle', async(ctx, next)=> {
+  tm.pause = !tm.pause;
+  tm._dispatchTask();
+  ctx.body = {
+    msg: 'success',
+    code: 1
   }
 });
 

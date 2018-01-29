@@ -1,14 +1,17 @@
 <template>
 <div class="layout-content-main">
+  <Alert :type="pause?'error':'success'" show-icon>{{pause?'调度暂停':'调度进行中'}}</Alert>
   <Table :columns="columns" :data="list"></Table>
   <br>
   <Table :columns="columnsGroup" :data="groups"></Table>
+  <br>
+  <Button :type="pause?'success':'error'" v-on:click="toggle" long>{{pause?'启动调度':'暂停调度'}}</Button>
 </div>
 </template>
 <script>
 export default {
   created: async function() {
-    let result = await this.$http.get(`/monitor`);
+    let result = await this.$http.get(`/tm/monitor`);
     this.list = [result.body];
     let groups = []
     for (let key in result.body.groups) {
@@ -16,6 +19,7 @@ export default {
       groups.push(result.body.groups[key])
     }
     this.groups = groups;
+    this.pause = result.body.pause;
   },
   data() {
     return {
@@ -36,8 +40,7 @@ export default {
           key: 'delayTasks'
         },
       ],
-      columnsGroup: [
-        {
+      columnsGroup: [{
           title: '任务组id',
           key: 'id',
         },
@@ -55,7 +58,15 @@ export default {
         },
       ],
       list: [],
-      groups: []
+      groups: [],
+      pause: false
+    }
+  },
+  methods: {
+    toggle: async function() {
+      await this.$http.post(`/tm/pause/toggle`);
+      this.pause = !this.pause;
+      this.$Message.success('操作成功');
     }
   }
 }
