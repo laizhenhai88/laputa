@@ -13,10 +13,12 @@
                   {
                     "type": "fuli/p0/list",
                     "delay": 0,
-                    "group": {
-                      "id": "fuli",
-                      "done": "fuli/p0/list"
-                    },
+                    "groups": [
+                      {
+                        "id": "fuli",
+                        "done": "fuli/p0/list"
+                      }
+                    ],
                     "params": {
                       "page": 1
                     }
