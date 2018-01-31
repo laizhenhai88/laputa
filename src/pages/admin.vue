@@ -3,6 +3,10 @@
   <Alert :type="pause?'error':'success'" show-icon>{{pause?'调度暂停':'调度进行中'}}</Alert>
   <Table :columns="columns" :data="list"></Table>
   <br>
+  <Table :columns="columnsRunning" :data="list"></Table>
+  <br>
+  <Table :columns="columnsTask" :data="list"></Table>
+  <br>
   <Table :columns="columnsGroup" :data="groups"></Table>
   <br>
   <Button :type="pause?'success':'error'" v-on:click="toggle" long>{{pause?'启动调度':'暂停调度'}}</Button>
@@ -11,15 +15,7 @@
 <script>
 export default {
   created: async function() {
-    let result = await this.$http.get(`/tm/monitor`);
-    this.list = [result.body];
-    let groups = []
-    for (let key in result.body.groups) {
-      result.body.groups[key].id = key
-      groups.push(result.body.groups[key])
-    }
-    this.groups = groups;
-    this.pause = result.body.pause;
+    this.update()
   },
   data() {
     return {
@@ -39,7 +35,19 @@ export default {
           title: '延时的任务',
           key: 'delayTasks'
         },
+        {
+          title: 'addTask溢出',
+          key: 'addTaskOut'
+        }
       ],
+      columnsRunning: [{
+        title: '进行中任务分析',
+        key: 'runningTaskAnalyze'
+      }],
+      columnsTask: [{
+        title: '待分配任务分析',
+        key: 'taskAnalyze'
+      }],
       columnsGroup: [{
           title: '任务组id',
           key: 'id',
@@ -63,6 +71,18 @@ export default {
     }
   },
   methods: {
+    update: async function() {
+      let result = await this.$http.get(`/tm/monitor`);
+      this.list = [result.body];
+      let groups = []
+      for (let key in result.body.groups) {
+        result.body.groups[key].id = key
+        groups.push(result.body.groups[key])
+      }
+      this.groups = groups;
+      this.pause = result.body.pause;
+      setTimeout(this.update, 5000)
+    },
     toggle: async function() {
       await this.$http.post(`/tm/pause/toggle`);
       this.pause = !this.pause;

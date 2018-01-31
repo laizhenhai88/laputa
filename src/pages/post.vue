@@ -11,16 +11,10 @@
             return {
                 task: `
                   {
-                    "type": "fuli/p0/list",
+                    "type": "23us/start",
                     "delay": 0,
-                    "groups": [
-                      {
-                        "id": "fuli",
-                        "done": "fuli/p0/list"
-                      }
-                    ],
                     "params": {
-                      "page": 1
+                      "url": "http://www.23us.so"
                     }
                   }
                 `

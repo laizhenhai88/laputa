@@ -15,7 +15,10 @@ router.get('tm/monitor', async(ctx, next)=> {
     workers: tm.workers.size,
     runningWorkers: tm.runningWorkers.size,
     groups: tm.groups,
-    pause: tm.pause
+    pause: tm.pause,
+    addTaskOut: tm.addTaskOut,
+    runningTaskAnalyze: tm.runningTaskAnalyze(),
+    taskAnalyze: tm.taskAnalyze()
   }
 });
 
