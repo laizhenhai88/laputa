@@ -13,7 +13,8 @@ socket.on('connect', () => {
     logger.info(`login ${socket.uuid}/${socket.type}`);
     socket.emit('login', {
         uuid: socket.uuid,
-        type: socket.type
+        type: socket.type,
+        filter: conf.filter
     });
 });
 
@@ -30,7 +31,7 @@ socket.on('login', (result)=> {
 let timeoutRef = undefined;
 let currentTaskRunning = false;
 socket.on('task', (task)=> {
-    logger.info(`got task ${JSON.stringify(task)}`);
+    logger.info(`got task ${JSON.stringify(task)}`)
     if (currentTaskRunning) {
         logger.error('task repeat');
         return;
@@ -38,11 +39,13 @@ socket.on('task', (task)=> {
     currentTaskRunning = true;
 
     // set timeout
+    let timeout = task.timeout || 5 * 60 * 1000
+    logger.info(`set timeout ${timeout}`)
     timeoutRef = setTimeout(()=> {
-        logger.error(`task timeout ${JSON.stringify(task)}`);
+        logger.error(`task timeout ${JSON.stringify(task)}`)
         process.exit(0);
         // TODO:关于timeout时如何通知服务器,如何更好的让客户端释放资源又;必须不能让timeout的任务又重新发送结果;可以考虑给每个task分配一个流水号,标记每一次dispatch
-    }, 1 * 60 * 1000);
+    }, timeout);
 
     doTask(task);
 });
