@@ -6,7 +6,7 @@ router.get('/', async(ctx, next) => {
 });
 
 router.post('login', async(ctx, next)=> {
-    sm.httpLogin(ctx.request.body.uuid);
+    sm.httpLogin(ctx.request.body.uuid, ctx.request.body.filter);
     ctx.body = {msg: 'success'}
 });
 

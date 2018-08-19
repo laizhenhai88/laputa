@@ -1,5 +1,6 @@
-const taskManager = require('./lib/taskManager');
+const tm = require('./lib/taskManager');
+const mongo = require('./lib/mongo')
 
 module.exports = async () => {
-  await taskManager._load();
+  await tm._load();
 }

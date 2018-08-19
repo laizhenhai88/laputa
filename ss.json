@@ -1,0 +1,9 @@
+[
+  {
+    "serverAddr": "xxx.xxx.xxx",
+    "serverPort": 14470,
+    "password": "xxx",
+    "timeout": 600,
+    "method": "aes-256-cfb"
+  }
+]

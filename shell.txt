@@ -1,0 +1,10 @@
+# need ./data/db ./data/configdb ./download ./mongobak
+# copy yml to root
+
+# deploy
+docker stack deploy -c instagram-compose.yml ins1
+
+# remove
+docker stack rm ins1
+docker container prune -f
+docker container ls -a

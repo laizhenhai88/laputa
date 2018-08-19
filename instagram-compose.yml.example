@@ -1,0 +1,142 @@
+version: "3"
+services:
+# web
+  web:
+    image: node:8.11.3-jessie
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 200M
+      restart_policy:
+        condition: any
+    working_dir: /root/project
+    volumes:
+      - ./instagram-bi:/root/project
+      - ./mongobak:/root/mongobak
+    command: npm run docker
+    ports:
+      - "8001:7002"
+    networks:
+      - webnet
+
+# spider-server
+  spider-server:
+    image: node:8.11.3-jessie
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 200M
+      restart_policy:
+        condition: any
+    working_dir: /root/project
+    volumes:
+      - ./instagram-spider:/root/project
+      - ./download:/root/download
+    command: npm start
+    ports:
+      - "8002:8080"
+    networks:
+      - webnet
+
+# db
+  mongo:
+    image: mongo:3.6.5-jessie
+    command: --wiredTigerCacheSizeGB 0.8
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 1000M
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - ./data/db:/data/db
+      - ./data/configdb:/data/configdb
+    networks:
+      - webnet
+
+# full-nologin
+  spider-full-nologin:
+    image: hongyusir/node-nightmare:1.0
+    deploy:
+      replicas: 5
+      resources:
+        limits:
+          memory: 300M
+      restart_policy:
+        condition: any
+    working_dir: /root/project
+    environment:
+      - NODE_FILE=bin/spider.js
+      - FILTER=["instagram/full/nologin"]
+    volumes:
+      - ./instagram-spider:/root/project
+      - ./download:/root/download
+    networks:
+      - webnet
+
+# downloadHead
+  spider-downloadHead:
+    image: hongyusir/node-nightmare:1.0
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 200M
+      restart_policy:
+        condition: any
+    working_dir: /root/project
+    environment:
+      - NODE_FILE=bin/spider.js
+      - FILTER=["instagram/full/downloadHead"]
+    volumes:
+      - ./instagram-spider:/root/project
+      - ./download:/root/download
+    networks:
+      - webnet
+
+# downloadSocks5
+  spider-downloadSocks5:
+    image: hongyusir/node-nightmare:1.0
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 200M
+      restart_policy:
+        condition: any
+    working_dir: /root/project
+    environment:
+      - NODE_FILE=bin/spider.js
+      - FILTER=["downloadSocks5"]
+    volumes:
+      - ./instagram-spider:/root/project
+      - ./download:/root/download
+    networks:
+      - webnet
+
+# follow
+  spider-follow:
+    image: hongyusir/node-nightmare:1.0
+    deploy:
+      replicas: 1
+      resources:
+        limits:
+          memory: 200M
+      restart_policy:
+        condition: any
+    working_dir: /root/project
+    environment:
+      - NODE_FILE=bin/spider.js
+      - FILTER=["instagram/follow"]
+    volumes:
+      - ./instagram-spider:/root/project
+      - ./download:/root/download
+    networks:
+      - webnet
+
+
+networks:
+  webnet:
