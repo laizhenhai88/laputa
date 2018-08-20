@@ -53,7 +53,7 @@ class MyComponent extends Component {
     let res = await axios.post(Api.task.addTask, task)
     if (res.data.code == 1) {
       message.success('提交成功')
-      this.props.timer.setTimeout(()=>{
+      this.props.timer.setTimeout(() => {
         this.props.history.push('/task/admin')
       }, 2000)
     } else {
@@ -86,10 +86,14 @@ class MyComponent extends Component {
       <Search style={{
           width: 500
         }} placeholder="查询条件JSON格式" onSearch={(f) => {
-          this.filters = JSON.parse(f)
-          this._load()
+          try {
+            this.filters = JSON.parse(f)
+            this._load()
+          } catch (e) {
+            message.error('格式错误')
+          }
         }}/>
-        <br/><br/>
+      <br/><br/>
       <Table columns={columns} bordered={true} pagination={false} rowKey='_id' dataSource={this.state.data} loading={this.state.loading}/>
     </div>)
   }
