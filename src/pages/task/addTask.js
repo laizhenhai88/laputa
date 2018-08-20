@@ -73,11 +73,16 @@ class MyComponent extends Component {
       form: {
         task: `
             {
-              "type": "instagram/tag2tag",
+              "type": "demo/list",
               "delay": 0,
               "timeout": 600000000,
+              "groups": [
+                {
+                  "id": "list-x",
+                  "done": "demo/list"
+                }
+              ],
               "params": {
-                "tag": "#yoga"
               }
             }
         `

@@ -14,9 +14,37 @@ router.get('monitor', async (ctx, next) => {
     pause: tm.pause,
     addTaskOut: tm.addTaskOut,
     runningTaskAnalyze: tm.runningTaskAnalyze(),
+    delayTaskAnalyze: tm.delayTaskAnalyze(),
     taskAnalyze: tm.taskAnalyze()
   }
 });
+
+router.post('list', async (ctx, next) => {
+  await mongo.persist(async(client)=>{
+    let res = await client.collection('task').find(ctx.request.body.filters).sort({$natural: -1}).limit(30).toArray()
+    ctx.body = {
+      code: 1,
+      message: 'success',
+      data: res
+    }
+  })
+})
+
+router.get('delayTasks', async (ctx, next) => {
+  let t = []
+  tm.delayTasks.forEach((k, v) => {
+    t.push(v)
+  })
+  ctx.body = t
+});
+
+router.post('runDelayTaskNow', async (ctx, next) => {
+  tm.runDelayTaskNow(ctx.request.body._id)
+  ctx.body = {
+    msg: 'success',
+    code: 1
+  }
+})
 
 router.post('pause/toggle', async (ctx, next) => {
   tm.pause = !tm.pause;

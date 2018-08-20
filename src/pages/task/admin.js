@@ -128,6 +128,13 @@ class MyComponent extends Component {
           }
         ]} bordered={true} pagination={false} rowKey='_id' dataSource={this.state.data} loading={this.state.loading}/>
       <br/>
+      <Table columns={[{
+            title: '延时任务分析',
+            dataIndex: 'delayTaskAnalyze',
+            key: 'delayTaskAnalyze'
+          }
+        ]} bordered={true} pagination={false} rowKey='_id' dataSource={this.state.data} loading={this.state.loading}/>
+      <br/>
       <Table columns={columnsGroup} bordered={true} pagination={false} rowKey='_id' dataSource={this.state.groups} loading={this.state.loading}/>
       <br/>
       <Button type={this.state.pause
