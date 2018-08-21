@@ -50,6 +50,7 @@ class MyComponent extends Component {
     delete task.result
     delete task.finishTime
     delete task.createTime
+    delete task.retry
     let res = await axios.post(Api.task.addTask, task)
     if (res.data.code == 1) {
       message.success('提交成功')
